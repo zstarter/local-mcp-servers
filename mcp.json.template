@@ -3,7 +3,7 @@
     "jira": {
       "command": "python",
       "args": ["mcp_jira_server.py"],
-      "cwd": "${LOCAL_MCP_DIR}",
+      "cwd": "{{INSTALL_DIR}}",
       "disabled": false,
       "autoApprove": [
         "create_jira_ticket",
@@ -13,23 +13,23 @@
         "add_jira_comment"
       ],
       "env": {
-        "JIRA_USERNAME": "${JIRA_USERNAME}",
-        "JIRA_TOKEN": "${JIRA_TOKEN}",
-        "JIRA_DEFAULT_PROJECT": "${JIRA_DEFAULT_PROJECT}"
+        "JIRA_USERNAME": "{{JIRA_USERNAME}}",
+        "JIRA_TOKEN": "{{JIRA_TOKEN}}",
+        "JIRA_DEFAULT_PROJECT": "{{JIRA_DEFAULT_PROJECT}}"
       }
     },
     "sumologic": {
       "command": "python",
       "args": ["mcp_sumo_server.py"],
-      "cwd": "${LOCAL_MCP_DIR}",
+      "cwd": "{{INSTALL_DIR}}",
       "disabled": false,
       "autoApprove": [
         "sumologic_search_logs"
       ],
       "env": {
-        "SUMO_ACCESS_ID": "${SUMO_ACCESS_ID}",
-        "SUMO_ACCESS_KEY": "${SUMO_ACCESS_KEY}",
-        "SUMO_DEFAULT_INDEX": "${SUMO_DEFAULT_INDEX}"
+        "SUMO_ACCESS_ID": "{{SUMO_ACCESS_ID}}",
+        "SUMO_ACCESS_KEY": "{{SUMO_ACCESS_KEY}}",
+        "SUMO_DEFAULT_INDEX": "{{SUMO_DEFAULT_INDEX}}"
       }
     }
   }
