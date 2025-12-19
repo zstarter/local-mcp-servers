@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-python3 -m venv .venv
-source .venv/bin/activate
+echo "Installing MCP server dependencies..."
 
-pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 python install.py
+
+echo "Installation complete. Restart Kiro / Amazon Q."

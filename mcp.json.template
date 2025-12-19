@@ -1,9 +1,8 @@
 {
   "mcpServers": {
     "jira": {
-      "command": "{{INSTALL_DIR}}/.venv/bin/python",
-      "args": ["{{INSTALL_DIR}}/mcp_jira_server.py"],
-      "cwd": "{{INSTALL_DIR}}",
+      "command": "python",
+      "args": ["${LOCAL_MCP_DIR}/mcp_jira_server.py"],
       "disabled": false,
       "autoApprove": [
         "create_jira_ticket",
@@ -13,23 +12,22 @@
         "add_jira_comment"
       ],
       "env": {
-        "JIRA_USERNAME": "{{JIRA_USERNAME}}",
-        "JIRA_TOKEN": "{{JIRA_TOKEN}}",
-        "JIRA_DEFAULT_PROJECT": "{{JIRA_DEFAULT_PROJECT}}"
+        "LOCAL_MCP_DIR": "${LOCAL_MCP_DIR}",
+        "JIRA_USERNAME": "${JIRA_USERNAME}",
+        "JIRA_TOKEN": "${JIRA_TOKEN}",
+        "JIRA_DEFAULT_PROJECT": "${JIRA_DEFAULT_PROJECT}"
       }
     },
     "sumologic": {
-      "command": "{{INSTALL_DIR}}/.venv/bin/python",
-      "args": ["{{INSTALL_DIR}}/mcp_sumo_server.py"],
-      "cwd": "{{INSTALL_DIR}}",
+      "command": "python",
+      "args": ["${LOCAL_MCP_DIR}/mcp_sumo_server.py"],
       "disabled": false,
-      "autoApprove": [
-        "sumologic_search_logs"
-      ],
+      "autoApprove": ["sumologic_search_logs"],
       "env": {
-        "SUMO_ACCESS_ID": "{{SUMO_ACCESS_ID}}",
-        "SUMO_ACCESS_KEY": "{{SUMO_ACCESS_KEY}}",
-        "SUMO_DEFAULT_INDEX": "{{SUMO_DEFAULT_INDEX}}"
+        "LOCAL_MCP_DIR": "${LOCAL_MCP_DIR}",
+        "SUMO_ACCESS_ID": "${SUMO_ACCESS_ID}",
+        "SUMO_ACCESS_KEY": "${SUMO_ACCESS_KEY}",
+        "SUMO_DEFAULT_INDEX": "${SUMO_DEFAULT_INDEX}"
       }
     }
   }
