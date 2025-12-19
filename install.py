@@ -41,12 +41,17 @@ def sanitize_json_value(value):
     value = value.replace('\n', '').replace('\r', '').strip()
     return value
 
+def escape_json_string(value):
+    """Properly escape a string for JSON"""
+    # Use json.dumps to properly escape the string, then remove the surrounding quotes
+    return json.dumps(value)[1:-1]
+
 def ask(prompt, secret=False):
     if secret:
         value = getpass.getpass(f"{prompt}: ")
         # Strip whitespace and newlines that might be captured
-        return sanitize_json_value(value)
-    return sanitize_json_value(input(f"{prompt}: "))
+        return escape_json_string(sanitize_json_value(value))
+    return escape_json_string(sanitize_json_value(input(f"{prompt}: ")))
 
 # Detect Python command
 python_cmd = detect_python_command()
@@ -58,8 +63,8 @@ print(f"📄 Target config: {TARGET}")
 print()
 
 values = {
-    "PYTHON_CMD": python_cmd,
-    "INSTALL_DIR": str(INSTALL_DIR).replace("\\", "\\\\"),  # Escape backslashes for Windows
+    "PYTHON_CMD": escape_json_string(python_cmd),
+    "INSTALL_DIR": escape_json_string(str(INSTALL_DIR)),  # No need for manual escaping now
     "JIRA_USERNAME": ask("Jira username"),
     "JIRA_TOKEN": ask("Jira API token", secret=True),
     "JIRA_DEFAULT_PROJECT": ask("Default Jira project key"),
