@@ -48,7 +48,6 @@ The installation script will prompt you for:
 
 1. **Restart Kiro** to load the new MCP servers
 2. The servers will be automatically configured in your MCP settings
-3. You can test them using the MCP tools in Kiro
 
 ## Available MCP Tools
 
