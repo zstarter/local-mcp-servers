@@ -12,11 +12,11 @@ cd local-mcp-servers
 ```
 
 ### Windows (PowerShell)
-```powershell
-git clone https://github.com/zstarter/local-mcp-servers.git
-cd local-mcp-servers
-.\install.ps1
-```
+#```powershell
+#git clone https://github.com/zstarter/local-mcp-servers.git
+#cd local-mcp-servers
+#.\install.ps1
+#```
 
 ### Manual Installation
 ```bash
