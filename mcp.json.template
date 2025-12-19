@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "jira": {
-      "command": "python",
+      "command": "{{PYTHON_CMD}}",
       "args": ["mcp_jira_server.py"],
       "cwd": "{{INSTALL_DIR}}",
       "disabled": false,
@@ -19,7 +19,7 @@
       }
     },
     "sumologic": {
-      "command": "python",
+      "command": "{{PYTHON_CMD}}",
       "args": ["mcp_sumo_server.py"],
       "cwd": "{{INSTALL_DIR}}",
       "disabled": false,

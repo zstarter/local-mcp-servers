@@ -1,5 +1,5 @@
 from pathlib import Path
-import getpass, json, os
+import getpass, json, os, sys, shutil, subprocess
 
 HOME = Path.home()
 KIRO_DIR = HOME / ".kiro" / "settings"
@@ -9,10 +9,36 @@ INSTALL_DIR = Path(__file__).resolve().parent
 TEMPLATE = INSTALL_DIR / "mcp.json.template"
 TARGET = KIRO_DIR / "mcp.json"
 
+def detect_python_command():
+    """Detect the correct Python command to use"""
+    # First, try to use the same Python that's running this script
+    current_python = sys.executable
+    if current_python and Path(current_python).exists():
+        return current_python
+    
+    # Fallback: check common Python commands
+    for cmd in ["python3", "python"]:
+        if shutil.which(cmd):
+            try:
+                # Verify it's Python 3.6+
+                result = subprocess.run([cmd, "-c", "import sys; exit(0 if sys.version_info >= (3, 6) else 1)"], 
+                                      capture_output=True, timeout=5)
+                if result.returncode == 0:
+                    return cmd
+            except (subprocess.TimeoutExpired, FileNotFoundError):
+                continue
+    
+    # Last resort: return python and hope for the best
+    return "python"
+
 def ask(prompt, secret=False):
     if secret:
         return getpass.getpass(f"{prompt}: ")
     return input(f"{prompt}: ").strip()
+
+# Detect Python command
+python_cmd = detect_python_command()
+print(f"🐍 Detected Python command: {python_cmd}")
 
 print("🔧 Configuring MCP servers for Jira and Sumo Logic...")
 print(f"📁 Install directory: {INSTALL_DIR}")
@@ -20,6 +46,7 @@ print(f"📄 Target config: {TARGET}")
 print()
 
 values = {
+    "PYTHON_CMD": python_cmd,
     "INSTALL_DIR": str(INSTALL_DIR).replace("\\", "\\\\"),  # Escape backslashes for Windows
     "JIRA_USERNAME": ask("Jira username"),
     "JIRA_TOKEN": ask("Jira API token", secret=True),
