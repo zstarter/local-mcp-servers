@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Installing MCP server dependencies..."
+echo "Creating virtual environment..."
+python3 -m venv .venv
 
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+echo "Activating virtual environment..."
+source .venv/bin/activate
+
+echo "Installing dependencies..."
+pip install --upgrade pip
+pip install -r requirements.txt
 
 python install.py
 
