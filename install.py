@@ -31,10 +31,22 @@ def detect_python_command():
     # Last resort: return python and hope for the best
     return "python"
 
+def sanitize_json_value(value):
+    """Sanitize a value for safe JSON inclusion"""
+    # Remove any control characters and normalize whitespace
+    import re
+    # Remove control characters except tab, newline, carriage return
+    value = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]', '', value)
+    # Replace any remaining newlines/carriage returns with empty string
+    value = value.replace('\n', '').replace('\r', '').strip()
+    return value
+
 def ask(prompt, secret=False):
     if secret:
-        return getpass.getpass(f"{prompt}: ")
-    return input(f"{prompt}: ").strip()
+        value = getpass.getpass(f"{prompt}: ")
+        # Strip whitespace and newlines that might be captured
+        return sanitize_json_value(value)
+    return sanitize_json_value(input(f"{prompt}: "))
 
 # Detect Python command
 python_cmd = detect_python_command()
@@ -60,6 +72,15 @@ print("\n🔄 Processing template...")
 content = TEMPLATE.read_text()
 for k, v in values.items():
     content = content.replace(f"{{{{{k}}}}}", v)
+
+# Validate JSON before writing
+try:
+    json.loads(content)
+    print("✅ JSON validation passed")
+except json.JSONDecodeError as e:
+    print(f"❌ JSON validation failed: {e}")
+    print("🔍 Please check your input values for special characters or line breaks")
+    sys.exit(1)
 
 TARGET.write_text(content)
 print(f"✅ MCP config written to {TARGET}")
