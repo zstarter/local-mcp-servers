@@ -1,6 +1,6 @@
 # Local MCP Servers (Jira + Sumo)
 
-This package installs local MCP servers for Jira and Sumo Logic for use with Kiro / Amazon Q.
+This package installs local MCP servers for Jira and Sumo Logic for use with Kiro / Amazon Q..
 
 ## Installation
 
