@@ -55,10 +55,10 @@ def ask(prompt, secret=False):
 
 # Detect Python command
 python_cmd = detect_python_command()
-print(f"🐍 Detected Python command: {python_cmd}")
+print(f"Detected Python command: {python_cmd}")
 
 print("🔧 Configuring MCP servers for Jira and Sumo Logic...")
-print(f"📁 Install directory: {INSTALL_DIR}")
+print(f"Install directory: {INSTALL_DIR}")
 print(f"📄 Target config: {TARGET}")
 print()
 
@@ -73,7 +73,7 @@ values = {
     "SUMO_DEFAULT_INDEX": ask("Default Sumo index"),
 }
 
-print("\n🔄 Processing template...")
+print("\nProcessing template...")
 content = TEMPLATE.read_text()
 for k, v in values.items():
     content = content.replace(f"{{{{{k}}}}}", v)
@@ -81,13 +81,13 @@ for k, v in values.items():
 # Validate JSON before writing
 try:
     json.loads(content)
-    print("✅ JSON validation passed")
+    print("JSON validation passed")
 except json.JSONDecodeError as e:
-    print(f"❌ JSON validation failed: {e}")
-    print("🔍 Please check your input values for special characters or line breaks")
+    print(f"JSON validation failed: {e}")
+    print("Please check your input values for special characters or line breaks")
     sys.exit(1)
 
 TARGET.write_text(content)
-print(f"✅ MCP config written to {TARGET}")
-print("\n🎉 Installation complete!")
-print("💡 Restart Kiro to load the new MCP servers.")
+print(f"MCP config written to {TARGET}")
+print("\nInstallation complete!")
+print("Restart Kiro to load the new MCP servers.")
