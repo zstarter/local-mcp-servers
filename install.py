@@ -46,32 +46,52 @@ def escape_json_string(value):
     # Use json.dumps to properly escape the string, then remove the surrounding quotes
     return json.dumps(value)[1:-1]
 
-def ask(prompt, secret=False):
-    if secret:
-        value = getpass.getpass(f"{prompt}: ")
+def ask(prompt, secret=False, required=True):
+    """Ask for user input with validation"""
+    while True:
+        if secret:
+            value = getpass.getpass(f"{prompt}: ")
+        else:
+            value = input(f"{prompt}: ")
+        
         # Strip whitespace and newlines that might be captured
-        return escape_json_string(sanitize_json_value(value))
-    return escape_json_string(sanitize_json_value(input(f"{prompt}: ")))
+        value = sanitize_json_value(value)
+        
+        # Check if input is required and empty
+        if required and not value.strip():
+            print(f"{prompt} is required and cannot be empty. Please try again.")
+            continue
+        
+        # Success message for all fields since they're all required now
+        print(f"{prompt} configured")
+        
+        return escape_json_string(value)
 
 # Detect Python command
 python_cmd = detect_python_command()
 print(f"Detected Python command: {python_cmd}")
 
-print("🔧 Configuring MCP servers for Jira and Sumo Logic...")
+print("Configuring MCP servers for Jira and Sumo Logic...")
 print(f"Install directory: {INSTALL_DIR}")
-print(f"📄 Target config: {TARGET}")
+print(f"Target config: {TARGET}")
+print()
+print("Configuration Requirements:")
+print("   All fields are required and cannot be left empty")
+print("   You'll be prompted again if any field is left empty")
 print()
 
 values = {
-    "PYTHON_CMD": escape_json_string(python_cmd),
-    "INSTALL_DIR": escape_json_string(str(INSTALL_DIR)),  # No need for manual escaping now
-    "JIRA_USERNAME": ask("Jira username"),
-    "JIRA_TOKEN": ask("Jira API token", secret=True),
-    "JIRA_DEFAULT_PROJECT": ask("Default Jira project key"),
-    "SUMO_ACCESS_ID": ask("Sumo Access ID"),
-    "SUMO_ACCESS_KEY": ask("Sumo Access Key", secret=True),
-    "SUMO_DEFAULT_INDEX": ask("Default Sumo index"),
+    "JIRA_USERNAME": ask("Jira username", required=True),
+    "JIRA_TOKEN": ask("Jira API token", secret=True, required=True),
+    "JIRA_DEFAULT_PROJECT": ask("Default Jira project key", required=True),
+    "SUMO_ACCESS_ID": ask("Sumo Access ID", required=True),
+    "SUMO_ACCESS_KEY": ask("Sumo Access Key", secret=True, required=True),
+    "SUMO_DEFAULT_INDEX": ask("Default Sumo index", required=True),
 }
+
+# Add auto-detected values for template replacement
+values["PYTHON_CMD"] = escape_json_string(python_cmd)
+values["INSTALL_DIR"] = escape_json_string(str(INSTALL_DIR))
 
 print("\nProcessing template...")
 content = TEMPLATE.read_text()
