@@ -4,6 +4,14 @@ This package installs local MCP servers for Jira and Sumo Logic for use with Kir
 
 ## Installation
 
+### Windows
+Use the batch file installer for the best Windows experience:
+```cmd
+git clone https://github.com/zstarter/local-mcp-servers.git
+cd local-mcp-servers
+install.bat
+```
+
 ### Linux/macOS
 ```bash
 git clone https://github.com/zstarter/local-mcp-servers.git

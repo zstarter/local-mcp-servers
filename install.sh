@@ -46,3 +46,12 @@ echo "Running configuration..."
 python install.py
 
 echo "Installation complete! Please restart Kiro to load the new MCP servers."
+
+echo "Installing dependencies..."
+pip install --upgrade pip
+pip install -r requirements.txt
+
+echo "Running configuration..."
+python install.py
+
+echo "Installation complete! Please restart Kiro to load the new MCP servers."
