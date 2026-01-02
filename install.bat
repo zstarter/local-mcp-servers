@@ -36,6 +36,11 @@ if errorlevel 1 (
 )
 
 echo Running configuration...
+echo.
+echo    Note: All credential fields are required and cannot be left empty.
+echo    Required: Jira username, API token, project key, Sumo Access ID, Access Key, and index
+echo    You'll be prompted again if any field is skipped.
+echo.
 python install.py
 if errorlevel 1 (
     echo Error: Configuration failed
@@ -44,5 +49,5 @@ if errorlevel 1 (
 )
 
 echo.
-echo ✅ Installation complete! Please restart Kiro to load the new MCP servers.
+echo Installation complete! Please restart Kiro to load the new MCP servers.
 pause
