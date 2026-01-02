@@ -24,25 +24,25 @@ detect_python() {
 PYTHON_CMD=$(detect_python)
 
 if [ -z "$PYTHON_CMD" ]; then
-    echo "❌ Error: Python 3.6+ not found. Please install Python 3.6 or higher."
+    echo "Error: Python 3.6+ not found. Please install Python 3.6 or higher."
     echo "   Try: sudo apt update && sudo apt install python3 python3-venv python3-pip"
     exit 1
 fi
 
-echo "✅ Using Python command: $PYTHON_CMD"
+echo "Using Python command: $PYTHON_CMD"
 "$PYTHON_CMD" --version
 
-echo "🔧 Creating virtual environment..."
+echo "Creating virtual environment..."
 "$PYTHON_CMD" -m venv .venv
 
-echo "🔌 Activating virtual environment..."
+echo "Activating virtual environment..."
 . .venv/bin/activate
 
-echo "📦 Installing dependencies..."
+echo "Installing dependencies..."
 pip install --upgrade pip
 pip install -r requirements.txt
 
-echo "⚙️  Running configuration..."
+echo "Running configuration..."
 python install.py
 
-echo "✅ Installation complete! Please restart Kiro to load the new MCP servers."
+echo "Installation complete! Please restart Kiro to load the new MCP servers."
